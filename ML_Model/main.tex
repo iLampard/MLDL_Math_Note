@@ -33,7 +33,7 @@
 % Needed for some foreign characters
 \usepackage[T1]{fontenc}
 \usepackage[UTF8]{ctex}
-\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{KaiTi}
+\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
 \usepackage{amsmath}
 \usepackage{subfigure}
 \usepackage{amsfonts}
@@ -118,7 +118,10 @@ plainpages=false]{hyperref}
 
 \begin{document}
 
-\setlength{\parskip}{0.25 \baselineskip}
+%\setlength{\parskip}{0.25 \baselineskip}
+\fontsize{10}{11}
+\selectfont  % change font size for chinese character
+\setlength{\parskip}{0 \baselineskip}
 \newlength{\figwidth}
 \setlength{\figwidth}{26pc}
 % Spacing between notation sections
