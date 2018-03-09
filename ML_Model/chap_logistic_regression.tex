@@ -1,23 +1,22 @@
 \chapter{逻辑回归}
-\label{chap:commentary}
-\typeout{START_CHAPTER "intro" \theabspage}
+\label{chap:logistic}
+\typeout{START_CHAPTER "model" \theabspage}
 
-This document is an example of how to use the accompanying files
-as well as some commentary on them.
-The files are {\tt math\_commands.tex} and {\tt notation.tex}.
-The file {\tt math\_commands.tex} includes several useful {\LaTeX}
-macros and {\tt notation.tex } defines a notation page that could
-be used at the front of any publication.
 
-We developed these files while writing \citet{dlbook}.
-We release these files for anyone to use freely, in order to help
-establish some standard notation in the deep learning community.
+\section{二项逻辑回归模型}
+\label{sec:logisticmodel}
 
-你好
 
-假设
-\section{Examples}
-\label{sec:examples}
+
+\begin{definition}
+二项逻辑回归模型是如下的条件概率分布
+\[
+	a+b =& c \\
+b+ c = &d
+\label{def:logistic}\]
+\end{definition}
+
+\eqref{def:logistic}
 
 We include this section as an example of some {\LaTeX} commands
 and the macros we created for the book.
@@ -38,23 +37,7 @@ or \newterm{Tikhonov regularization}.
 \index{Ridge regression|see {weight decay}}\index{Tikhonov regularization|see {weight decay}}
 \end{quote}
 
-To refer to a figure, use either {\tt figref} or {\tt Figref} depending on
-whether you want to capitalize the resulting word in the sentence.
 
-\begin{quote}
-See \figref{fig:venn} for an example of a how to include graphics
-in your document.
-\Figref{fig:venn} shows how to include graphics in your document.
-\end{quote}
-
-
-
-Similarly, you can refer to different sections of the book using
-{\tt partref}, {\tt Partref}, {\tt secref}, {\tt Secref}, etc.
-
-\begin{quote}
-	You are currently reading \secref{sec:examples}.
-\end{quote}
 
 \section*{Acknowledgments}
 We thank Catherine Olsson and \'Ulfar Erlingsson for proofreading and
@@ -63,4 +46,4 @@ review of this manuscript.
 
 \clearpage
 %%
-\typeout{END_CHAPTER "intro" \theabspage}
+\typeout{END_CHAPTER "model" \theabspage}

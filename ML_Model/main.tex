@@ -77,6 +77,7 @@
 
 \theoremstyle{definition}
 \newtheorem{example}{Example}[section]
+\newtheorem{definition}{Definition}[section]
 
 % Define the P table cell environment
 % It is the same as p, but centers the text horizontally
@@ -108,8 +109,8 @@ bookmarks=false,
 plainpages=false]{hyperref}
 
 % Make \[ \] math have equation numbers
-\DeclareRobustCommand{\[}{\begin{equation}}
-\DeclareRobustCommand{\]}{\end{equation}}
+\DeclareRobustCommand{\[}{\begin{equation}\begin{aligned}}
+\DeclareRobustCommand{\]}{\end{aligned}\end{equation}}
 
 % Allow align environments to cross page boundaries.
 % If we do not do this, we get weird gaps of several inches of white space
