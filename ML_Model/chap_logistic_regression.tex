@@ -4,45 +4,86 @@
 
 
 \section{二项逻辑回归模型}
-\label{sec:logisticmodel}
+\label{sec:bin_logistic_regression}
 
-
-
-\begin{definition}
 二项逻辑回归模型是如下的条件概率分布
 \[
-	a+b =& c \\
-b+ c = &d
-\label{def:logistic}\]
-\end{definition}
+	P(Y=1| \vx)=& \frac{\exp(\vtheta^T \vx + b)}{1+\exp(\vtheta^T \vx + b)}\\
+	P(Y=0| \vx)=&\frac{1}{1+\exp(\vtheta^T \vx + b)}
+\nonumber\]
+其中$\vx \in \R^n$是输入变量， $Y \in \{0,1\}$是输出变量，$\vtheta \in \R^n$和$b \in \R$是参数。 $\vx$和$\vtheta$为$n$维列向量。
 
-\eqref{def:logistic}
+若令$\vtheta=(\evtheta^{1},...,\evtheta^{n}, b)^T$， $\vx=(\evx^{1},...,\evx^{n},1)^T$，那么条件概率可以表示为
+\[
+	P(Y=1| \vx)=& \frac{\exp(\vtheta^T \vx )}{1+\exp(\vtheta^T \vx)}\\
+	P(Y=0| \vx)=&\frac{1}{1+\exp(\vtheta^T \vx )}
+\label{def:bin_logistic}\]
 
-We include this section as an example of some {\LaTeX} commands
-and the macros we created for the book.
+\subsection{模型的参数估计}
+对于给定的训练集$\sX=\{ (\vx_1, y_1),..., (\vx_N, y_N) \}$，可应用极大似然估计法估计模型参数。
 
-Citations that support a sentence without actually being used in the sentence
-should appear at the end of the sentence using {\tt citep}:
+为表示方便，令$P(Y=1|\vx)=\pi(\vx), P(Y=0|\vx)=1-\pi(\vx)$， 似然函数为
+\[
+	L(\vtheta) = \prod^N_{i=1}\left(\pi(\vx_i)\right)^{y_i}\left(1-\pi(\vx_i)\right)^{1-y_i}
+	\nonumber 
+\]
 
-
-\begin{quote}
-One of the simplest
-and most common kinds of parameter norm penalty is
-the squared $\normltwo$ parameter norm penalty
-commonly known as \newterm{weight decay}.
-\index{Weight decay}
-In other academic communities,
-$\normltwo$ regularization is also known as \newterm{ridge regression}
-or \newterm{Tikhonov regularization}.
-\index{Ridge regression|see {weight decay}}\index{Tikhonov regularization|see {weight decay}}
-\end{quote}
-
+那么对数似然函数为
+\[
+	\log L(\vtheta) 
+	=& \sum^N_{i=1}\left(y_i\log \pi(\vx_i) + (1-y_i)\log(1-\pi(\vx_i))\right)   \\
+	=& \sum^N_{i=1}\left(y_i\log \frac{\pi(\vx_i)}{1-\pi(\vx_i)} + \log(1-\pi(\vx_i))\right)  \\
+	=& \sum^N_{i=1}\left(y_i(\vtheta^T \vx_i) -  \log(1+ \exp(\vtheta^T \vx_i))\right)
+\label{eqn:logistic_likelihood}
+\]
 
 
-\section*{Acknowledgments}
-We thank Catherine Olsson and \'Ulfar Erlingsson for proofreading and
-review of this manuscript.
+\subsubsection{参数估计：梯度下降法}
+根据公式\eqref{eqn:logistic_likelihood}， 对数似然函数对$\vtheta$的偏导为
+\[
+	\frac{\partial}{\partial \vtheta}\log L(\vtheta) 
+	=& \sum^N_{i=1} \left(y_i \vx_i - \frac{\exp(\vtheta^Tx_i) \vx_i}{1+ \exp(\vtheta^T \vx_i)} \right) \\
+	=& \sum^N_{i=1} \left(y_i - \pi(x_i) \right)x_i
+	\nonumber
+\]
 
+
+由此此处求对数似然函数的最大值，故需要沿着梯度上升的方向进行迭代，迭代公式为
+\[ 
+	\vtheta_{t+1} 
+	=& \vtheta_t + \lr \frac{\partial}{\partial \vtheta}\log L(\vtheta)  \\
+	=&  \vtheta_t + \lr \sum^N_{i=1} \left(y_i - \pi(\vx_i) \right) \vx_i
+\label{eqn:logistic_GD}
+\]
+其中$\lr$称为学习率，是一个正常数。
+
+公式\eqref{eqn:logistic_GD}可以用矩阵表示
+\[
+	\vtheta_{t+1} = \vtheta_{t} + \lr X^T \mLambda
+\]
+其中$\mLambda=\left( \begin{array}{c}
+	y_1 - \pi(\vx_1)\\
+	y_2 - \pi(\vx_2)\\
+	...\\
+	y_N - \pi(\vx_N)
+	  \end{array} \right)_{N \times 1}$，$X$是由训练数据构成的$N \times (n+1)$矩阵(每一行对应一个样本，每一列对应样本的一个维度，其中还包括一维常数项)。
+
+\subsubsection{参数估计：随机梯度下降法}
+梯度下降算法在每次更新回归系数时需要遍历整个数据集，当数据集数量庞大或者特征过多时，该方法的计算复杂度太高。改进方法是每次迭代仅用一个样本来更新回归系数，称为\emph{随机梯度下降法}。
+
+具体而言，对于训练集中的每一个样本$(x_i, y_i)$，计算该样本梯度，并依据迭代公式：
+\[
+	\vtheta_{t+1}=\vtheta_t + \lr  \left(y_i - \pi(\vx_i) \right)\vx_i
+\label{eqn:logistic_SGD}	
+\]
+
+与公式\eqref{eqn:logistic_GD}相比，随机梯度下降的迭代公式\eqref{eqn:logistic_SGD}中
+\begin{itemize}
+\item 误差变量是数值，而不是向量
+\item 不再有矩阵变换的过程
+\end{itemize}
+
+所以随机梯度下降算法的计算效率较高，缺点是存在解的不稳定性(如解存在周期性波动)的问题。为了解决这一问题，并进一步加快收敛速度，可以通过随机选取样本来更新回归系数。
 
 \clearpage
 %%

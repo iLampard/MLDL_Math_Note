@@ -3,18 +3,24 @@
 % Otherwise, will show a primarily grayscale version of the document for printing
 
 \input{settings.tex}
+ 
 \documentclass[11pt,oneside,a4paper]{book}
 \usepackage{natbib}
 \usepackage{breakcites} % Do Not let citations break out of the text frame
 \usepackage{microtype} % Get rid of some frame busts automatically
 % Note: if microtype causes error on ubuntu, run
 % sudo apt-get install cm-super
-\title{机器学习的数学笔记}
-\author{X}
+
+%%%%%%% 设置中文字体 %%%%%%%%%%
+\usepackage[UTF8]{ctex}
+
+\title{Example Notation for Deep Learning}
+\author{伊恩\\Yoshua Bengio\\Aaron Courville}
 \date{}
 \setcounter{tocdepth}{1}
-%\pdfobjcompresslevel=0
   
+%\pdfobjcompresslevel=0
+ 
 \usepackage{zref-abspage}
 
 \setcounter{secnumdepth}{3} % Number subsubsections, because we reference them,
@@ -30,10 +36,10 @@
 \usepackage{subfigure}
 \usepackage[utf8]{inputenc}
 
+ 
 % Needed for some foreign characters
 \usepackage[T1]{fontenc}
-\usepackage[UTF8]{ctex}
-\setCJKmainfont[BoldFont=SimHei,ItalicFont=KaiTi]{SimSun}
+
 \usepackage{amsmath}
 \usepackage{subfigure}
 \usepackage{amsfonts}
@@ -79,6 +85,7 @@
 \newtheorem{example}{Example}[section]
 \newtheorem{definition}{Definition}[section]
 
+
 % Define the P table cell environment
 % It is the same as p, but centers the text horizontally
 \usepackage{array}
@@ -108,7 +115,7 @@ colorlinks,
 bookmarks=false,
 plainpages=false]{hyperref}
 
-% Make \[ \] math have equation numbers
+% Make \[ \] math have equation numbers - 添加了aligned， 方便公式多行对齐的操作
 \DeclareRobustCommand{\[}{\begin{equation}\begin{aligned}}
 \DeclareRobustCommand{\]}{\end{aligned}\end{equation}}
 
@@ -118,11 +125,11 @@ plainpages=false]{hyperref}
 \allowdisplaybreaks
 
 \begin{document}
-
-%\setlength{\parskip}{0.25 \baselineskip}
+%%%%%% 缩小了字号和行间距，使得文字看起来更紧凑  %%%%%%%%
 \fontsize{10}{11}
 \selectfont  % change font size for chinese character
-\setlength{\parskip}{0 \baselineskip}
+
+\setlength{\parskip}{0.25 \baselineskip}
 \newlength{\figwidth}
 \setlength{\figwidth}{26pc}
 % Spacing between notation sections
