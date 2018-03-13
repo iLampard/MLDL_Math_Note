@@ -306,6 +306,7 @@
 \def\mPhi{{\bm{\Phi}}}
 \def\mLambda{{\bm{\Lambda}}}
 \def\mSigma{{\bm{\Sigma}}}
+\def\mTheta{{\bm{\Theta}}}
 
 % Tensor
 \DeclareMathAlphabet{\mathsfit}{\encodingdefault}{\sfdefault}{m}{sl}
@@ -457,6 +458,9 @@
 \def\etY{{\etens{Y}}}
 \def\etZ{{\etens{Z}}}
 
+% 示性函数
+\def\I{\mathbbm{1}}
+
 % The true underlying data generating distribution
 \newcommand{\pdata}{p_{\rm{data}}}
 % The empirical distribution defined by the training set
@@ -498,9 +502,15 @@
 
 \newcommand{\parents}{Pa} % See usage in notation.tex. Chosen to match Daphne's book.
 
+% 求和
+\newcommand{\xsum}[2]{\sum\limits_{#1}^{#2}}  
+\newcommand{\prt}[1]{\left( #1 \right)}  % parenthese
+
 \DeclareMathOperator*{\argmax}{arg\,max}
 \DeclareMathOperator*{\argmin}{arg\,min}
 
 \DeclareMathOperator{\sign}{sign}
 \DeclareMathOperator{\Tr}{Tr}
 \let\ab\allowbreak
+
+

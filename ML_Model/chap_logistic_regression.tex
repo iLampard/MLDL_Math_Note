@@ -13,11 +13,12 @@
 \nonumber\]
 其中$\vx \in \R^n$是输入变量， $Y \in \{0,1\}$是输出变量，$\vtheta \in \R^n$和$b \in \R$是参数。 $\vx$和$\vtheta$为$n$维列向量。
 
-若令$\vtheta=(\evtheta^{1},...,\evtheta^{n}, b)^T$， $\vx=(\evx^{1},...,\evx^{n},1)^T$，那么条件概率可以表示为
+若令$\vtheta=(\evtheta^{(1)},...,\evtheta^{(n)}, b)^T$， $\vx=(\evx^{(1)},...,\evx^{(n)},1)^T$，那么条件概率可以表示为
 \[
 	P(Y=1| \vx)=& \frac{\exp(\vtheta^T \vx )}{1+\exp(\vtheta^T \vx)}\\
 	P(Y=0| \vx)=&\frac{1}{1+\exp(\vtheta^T \vx )}
-\label{def:bin_logistic}\]
+	\label{def:bin_logistic}
+\]
 
 \subsection{模型的参数估计}
 对于给定的训练集$\sX=\{ (\vx_1, y_1),..., (\vx_N, y_N) \}$，可应用极大似然估计法估计模型参数。
@@ -34,14 +35,14 @@
 	=& \sum^N_{i=1}\left(y_i\log \pi(\vx_i) + (1-y_i)\log(1-\pi(\vx_i))\right)   \\
 	=& \sum^N_{i=1}\left(y_i\log \frac{\pi(\vx_i)}{1-\pi(\vx_i)} + \log(1-\pi(\vx_i))\right)  \\
 	=& \sum^N_{i=1}\left(y_i(\vtheta^T \vx_i) -  \log(1+ \exp(\vtheta^T \vx_i))\right)
-\label{eqn:logistic_likelihood}
+	\label{eqn:logistic_likelihood}
 \]
 
 
 \subsubsection{参数估计：梯度下降法}
-根据公式\eqref{eqn:logistic_likelihood}， 对数似然函数对$\vtheta$的偏导为
+根据\eqref{eqn:logistic_likelihood}， 对数似然函数对$\vtheta$的偏导为
 \[
-	\frac{\partial}{\partial \vtheta}\log L(\vtheta) 
+	\nabla_\vtheta \log L(\vtheta) 
 	=& \sum^N_{i=1} \left(y_i \vx_i - \frac{\exp(\vtheta^Tx_i) \vx_i}{1+ \exp(\vtheta^T \vx_i)} \right) \\
 	=& \sum^N_{i=1} \left(y_i - \pi(x_i) \right)x_i
 	\nonumber
@@ -50,16 +51,16 @@
 
 由此此处求对数似然函数的最大值，故需要沿着梯度上升的方向进行迭代，迭代公式为
 \[ 
-	\vtheta_{t+1} 
-	=& \vtheta_t + \lr \frac{\partial}{\partial \vtheta}\log L(\vtheta)  \\
-	=&  \vtheta_t + \lr \sum^N_{i=1} \left(y_i - \pi(\vx_i) \right) \vx_i
-\label{eqn:logistic_GD}
+	\vtheta 
+	\coloneqq& \vtheta + \lr \frac{\partial}{\partial \vtheta}\log L(\vtheta)  \\
+	=&  \vtheta + \lr \sum^N_{i=1} \left(y_i - \pi(\vx_i) \right) \vx_i
+	\label{eqn:logistic_GD}
 \]
 其中$\lr$称为学习率，是一个正常数。
 
-公式\eqref{eqn:logistic_GD}可以用矩阵表示
+\eqref{eqn:logistic_GD}可以用矩阵表示
 \[
-	\vtheta_{t+1} = \vtheta_{t} + \lr X^T \mLambda
+	\vtheta \coloneqq \vtheta + \lr X^T \mLambda
 \]
 其中$\mLambda=\left( \begin{array}{c}
 	y_1 - \pi(\vx_1)\\
@@ -73,17 +74,91 @@
 
 具体而言，对于训练集中的每一个样本$(x_i, y_i)$，计算该样本梯度，并依据迭代公式：
 \[
-	\vtheta_{t+1}=\vtheta_t + \lr  \left(y_i - \pi(\vx_i) \right)\vx_i
-\label{eqn:logistic_SGD}	
+	\vtheta \coloneqq \vtheta + \lr  \left(y_i - \pi(\vx_i) \right)\vx_i
+	\label{eqn:logistic_SGD}	
 \]
 
-与公式\eqref{eqn:logistic_GD}相比，随机梯度下降的迭代公式\eqref{eqn:logistic_SGD}中
+与\eqref{eqn:logistic_GD}相比，随机梯度下降的迭代\eqref{eqn:logistic_SGD}中
 \begin{itemize}
 \item 误差变量是数值，而不是向量
 \item 不再有矩阵变换的过程
 \end{itemize}
 
 所以随机梯度下降算法的计算效率较高，缺点是存在解的不稳定性(如解存在周期性波动)的问题。为了解决这一问题，并进一步加快收敛速度，可以通过随机选取样本来更新回归系数。
+
+
+\section{Softmax回归模型}
+\label{sec:softmax_regression}
+
+Softmax模型是二项回归模型在多分类问题上的推广，在多分类问题中，类标签$Y$可以取两个以上的值。 
+
+假设$Y$的取值集合是$\{1,2,...,K \}$，Softmax模型是如下的条件概率分布
+\[
+	P(Y=k| \vx)= \frac{\exp(\vtheta_k^T \vx)}{\xsum{j=1}{K} \exp(\vtheta_j^T \vx)}
+\]
+其中$\vtheta_1,...,\vtheta_K \in \R^{n+1}$ 是模型的参数。 
+
+为方便起见，下文用矩阵$\mTheta_{K \times (n+1)}$表示全部的模型参数
+\[
+	\mTheta = \left[   
+		\begin{array}{c}
+		\vtheta_1^T\\
+		. \\
+		. \\
+		\vtheta_K^T
+		\end{array}
+			\right]	
+	\nonumber			
+\]
+
+
+\subsection{模型的参数估计}
+令$P(Y=k|\vx)=\pi_k(\vx)$，与二项逻辑回归类似，Softmax的似然函数可以表示为
+\[
+	L(\mTheta) = \prod^N_{i=1} \prod^K_{k=1}\prt{\pi_k(\vx_i)}^{\I_{y_i=k}}
+	\nonumber 
+\]
+
+对数似然函数为
+
+\[
+	\log L(\mTheta) 
+	=& \xsum{i=1}{N} \xsum{k=1}{K} \I_{y_i=k} \log \pi_k(\vx_i)    
+	\label{eqn:softmax_likelihood}
+\]
+
+\subsubsection{参数估计：梯度下降法}
+首先求
+\[
+	\frac{\partial \pi_k(\vx_i)  }{\partial \vtheta_k} = \frac{\vx_i\exp(\vtheta^T_k \vx_i)\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx) - \exp(\vtheta^T_k \vx_i)}}{\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx)}^2}
+\]
+
+故根据\eqref{eqn:softmax_likelihood}，得到Softmax模型的对数似然函数的梯度
+\[
+	\nabla_{\vtheta_k} \log L(\mTheta) 
+	=&  \xsum{i=1}{N}  \I_{y_i=k}\frac{1}{\pi_k(\vx_i)}\frac{\partial \pi_k(\vx_i)  }{\partial \vtheta_k} \\
+	=& \xsum{i=1}{N}  \I_{y_i=k}\frac{1}{\pi_k(\vx_i)} \frac{\vx_i\exp(\vtheta^T_k \vx_i)\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx) - \exp(\vtheta^T_k \vx_i)}}{\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx)}^2} \\
+	=& \xsum{i=1}{N}  \I_{y_i=k} \frac{\vx_i\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx) - \exp(\vtheta^T_k \vx_i)}}{\xsum{j=1}{K} \exp(\vtheta_j^T \vx)} \\
+	=& \xsum{i=1}{N}  \I_{y_i=k} \vx_i\prt{1 - \pi_k(\vx_i)  }
+\]
+
+对于任意第$k$个分类的参数$\vtheta_k$，可沿着梯度上升的方向进行迭代
+\[
+   \vtheta_k  \coloneqq \vtheta_k + \lr \xsum{i=1}{N}  \I_{y_i=k} \vx_i\prt{1 - \pi_k(\vx_i)  }
+   \label{eqn:softmax_gd}
+\]
+
+\eqref{eqn:softmax_gd}的迭代关系用矩阵可以表示为
+\[
+	\vtheta_k  \coloneqq \vtheta_k + \lr X^T \mLambda
+\]
+其中$\mLambda=\left(
+	 \begin{array}{c}
+		\I_{y_1=k}\prt{1 - \pi_k(\vx_1)}\\
+		\I_{y_2=k}\prt{1 - \pi_k(\vx_2)}\\
+		...\\
+		\I_{y_N=k}\prt{1 - \pi_k(\vx_N)}
+	  \end{array} \right)_{N \times 1}$，$X$是由训练数据构成的$N \times (n+1)$矩阵(每一行对应一个样本，每一列对应样本的一个维度，其中还包括一维常数项)。
 
 \clearpage
 %%
