@@ -137,7 +137,7 @@ Softmax模型是二项回归模型在多分类问题上的推广，在多分类�
 \[
 	\nabla_{\vtheta_k} \log L(\mTheta) 
 	=&  \xsum{i=1}{N}  \I_{y_i=k}\frac{1}{\pi_k(\vx_i)}\frac{\partial \pi_k(\vx_i)  }{\partial \vtheta_k} \\
-	=& \xsum{i=1}{N}  \I_{y_i=k}\frac{1}{\pi_k(\vx_i)} \frac{\vx_i\exp(\vtheta^T_k \vx_i)\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx) - \exp(\vtheta^T_k \vx_i)}}{\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx)}^2} \\
+	=& \xsum{i=1}{N}  \I_{y_i=k}\frac{1}{\pi_k(\vx_i)} \frac{\vx_i\exp(\vtheta^T_k \vx_i)\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx_i) - \exp(\vtheta^T_k \vx_i)}}{\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx_i)}^2} \\
 	=& \xsum{i=1}{N}  \I_{y_i=k} \frac{\vx_i\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx) - \exp(\vtheta^T_k \vx_i)}}{\xsum{j=1}{K} \exp(\vtheta_j^T \vx)} \\
 	=& \xsum{i=1}{N}  \I_{y_i=k} \vx_i\prt{1 - \pi_k(\vx_i)  }
 \]

@@ -1,0 +1,79 @@
+\chapter{附录：信息熵}
+\label{app:entory}
+\typeout{START_CHAPTER "model" \theabspage}
+
+假设
+\footnote{本章参考了信息论与编码(http://www.docin.com/p-957983839-f6.html)和信息论基础(https://wenku.baidu.com/view/5319fed3b9f3f90f76c61b1a.html)}
+$X$是一个取有限值的离散随机变量(本文只考虑离散情况)， 概率分布为$P(X=x_{i})=p_{i},i=1...n$。 
+
+那么$I(x_{i})=-\log p(x_{i})$称为事件$x_{i}$的\newterm{自信息量}， 随机变量$X$ 的\newterm{熵}定义为$X$ 的自信息量的数学期望，即
+\[
+    H(X)=\E(I(x_{i})) = - \xsum{i=1}{n} p_{i} \log p_{i}
+    \nonumber
+\]
+
+熵反映的是随机变量不确定程度的大小：熵的值越大，不确定程度越高。
+
+\section{相关概念}
+
+\subsection{条件熵和相对熵}
+
+\newterm{条件熵}是指在联合概率空间上熵的条件自信息的数学期望。在已知$X$时，$Y$的条件熵为
+\[
+    H(Y| X)=\E_{\rx,\ry} I(y_{j}|x_{i}) = - \sum_x \sum_y P(x, y) \log P(y|x)
+    \label{eqn:cond_entropy}
+\]
+
+
+
+\begin{lemma}
+    与\eqref{eqn:cond_entropy}等价的定义为给定$X$条件下$Y$的条件分布概率的熵的数学期望
+    \[
+        H(Y| X)=\E_{\rx} H(Y|X=x)=\sum_x P(x)H(Y|X=x)
+        \nonumber
+    \]
+\end{lemma}
+
+\begin{proof}
+\[
+    H(Y| X)
+    =&  - \sum_x \sum_y P(x, y) \log P(y|x)\\
+    =& -\sum_x \sum_y P(x)P(y | x) \log P(y | x) \\
+    =& -\sum_x P(x)\sum_y P(y | x)\log P(y | x) \quad \prt{\textrm{$P(x)$与$y$无关}}\\
+    =& \sum_x P(x)[-\sum_y P(y | x) \log P(y | x)]  \\
+    =& \sum_x P(x) H(Y| X=x)  
+    \nonumber
+\]    
+\end{proof}
+
+
+$H(Y| X)$的含义是已知在$X$发生的前提下，$Y$发生\newterm{新带来的熵}。
+
+\newterm{相对熵}(也称KL散度，交叉熵等)定义为两个随机变量的概率分布之比的数学期望。
+
+设$Q(x),P(x)$是随机变量$X$中取值的两个概率分布，则$P$对$Q$的相对熵是
+\[
+    \KL ( P \Vert Q )= \sum_x P(x) \log \frac{P(x)}{Q(x)} = \E_{\rx} \log\frac{P(x)}{Q(x)}    
+\]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
