@@ -4,11 +4,11 @@
 
 假设
 \footnote{本章参考了信息论与编码(http://www.docin.com/p-957983839-f6.html)和信息论基础(https://wenku.baidu.com/view/5319fed3b9f3f90f76c61b1a.html)}
-$X$是一个取有限值的离散随机变量(本文只考虑离散情况)， 概率分布为$P(X=x_{i})=p_{i},i=1...n$。 
+$X$是一个取有限值的离散随机变量(本文只考虑离散情况)， 概率分布为$P$。 
 
-那么$I(x_{i})=-\log p(x_{i})$称为事件$x_{i}$的\newterm{自信息量}， 随机变量$X$ 的\newterm{熵}定义为$X$ 的自信息量的数学期望，即
+那么$I(X=x_{i})=-\log P(X=x_{i})$称为事件$x_{i}$的\newterm{自信息量}， 随机变量$X$的\newterm{熵}定义为$X$的自信息量的数学期望，即
 \[
-    H(X)=\E(I(x_{i})) = - \xsum{i=1}{n} p_{i} \log p_{i}
+    H(X)=\E(I(X)) = - \sum_x P(x) \log P(x)
     \nonumber
 \]
 
@@ -21,13 +21,13 @@ $X$是一个取有限值的离散随机变量(本文只考虑离散情况)， �
 \newterm{条件熵}是指在联合概率空间上熵的条件自信息的数学期望。在已知$X$时，$Y$的条件熵为
 \[
     H(Y| X)=\E_{\rx,\ry} I(y_{j}|x_{i}) = - \sum_x \sum_y P(x, y) \log P(y|x)
-    \label{eqn:cond_entropy}
+    \label{eqn:app_cond_entropy}
 \]
 
 
 
 \begin{lemma}
-    与\eqref{eqn:cond_entropy}等价的定义为给定$X$条件下$Y$的条件分布概率的熵的数学期望
+    与\eqref{eqn:app_cond_entropy}等价的定义为给定$X$条件下$Y$的条件分布概率的熵的数学期望
     \[
         H(Y| X)=\E_{\rx} H(Y|X=x)=\sum_x P(x)H(Y|X=x)
         \nonumber
@@ -56,7 +56,7 @@ $H(Y| X)$的含义是已知在$X$发生的前提下，$Y$发生\newterm{新带�
 设$Q(x),P(x)$是随机变量$X$中取值的两个概率分布，则$P$对$Q$的相对熵是
 \[
     \KL ( P \Vert Q )= \sum_x P(x) \log \frac{P(x)}{Q(x)} = \E_{\rx} \log\frac{P(x)}{Q(x)}    
-    \label{eqn:kl_def}
+    \label{eqn:app_kl_def}
 \]
 
 相对熵可以用来度量两个随机变量的“距离”。
@@ -65,7 +65,7 @@ $H(Y| X)$的含义是已知在$X$发生的前提下，$Y$发生\newterm{新带�
     相对熵恒大于等于零。
 \end{lemma}
 \begin{proof}
-    对于任意分布$P,Q$，根据\eqref{eqn:kl_def}，可知
+    对于任意分布$P,Q$，根据\eqref{eqn:app_kl_def}，可知
     \[
         \KL ( P \Vert Q ) 
         =& \sum_x P(x) \log \frac{P(x)}{Q(x)} \\
@@ -92,7 +92,7 @@ $H(Y| X)$的含义是已知在$X$发生的前提下，$Y$发生\newterm{新带�
     \]
 \end{lemma}
 \begin{proof}
-    根据\eqref{eqn:kl_def}以及互信息的定义可知
+    根据\eqref{eqn:app_kl_def}以及互信息的定义可知
     \[
         I(X,Y) = \sum_{x,y} P(x,y)\log\frac{P(x,y)}{P(x)P(y)}
         \nonumber
@@ -107,18 +107,136 @@ $H(Y| X)$的含义是已知在$X$发生的前提下，$Y$发生\newterm{新带�
         =& -\sum_{x,y}P(x,y)\prt{\log P(x) + \log\frac{P(x,y)}{P(x)P(y)}} \\
         =& -\sum_{x,y}P(x,y)\log\frac{P(x,y)}{P(y)} \\
         =& -\sum_{x,y}P(x,y)\log  P(x \mid y) \\
-        =& H(X|Y)    \quad \prt{\textrm{根据\eqref{eqn:cond_entropy}}}
+        =& H(X|Y)    \quad \prt{\textrm{根据\eqref{eqn:app_cond_entropy}}}
         \nonumber 
     \]
 \end{proof}
 
 
+\section{熵的性质}
+
+为表示方便，下文假设离散随机变量$X$的概率分布为$P(X=x_{i})=p_{i},i=1...n$。 
+
+$X$的熵具有如下几个性质
+\begin{itemize}
+    \item 非负性：$H(X) \ge 0$。 \footnote{实际上这种非负性对于离散随机变量$X$成立，对连续随机变量$X$不一定成立。这是本文只考虑离散情况的原因。}
+    \item 对称性: 当随机变量的概率取值任意互换时，熵不变。
+    \[
+        H(p_{1},p_{2}...p_{n})=H(p_{2},p_{1}...p_{n})=H(p_{3},p_{1}...p_{n})=..
+        \nonumber
+    \]  
+    \item 可加性: 如果随机变量$X,Y$相互独立，则$H(X,Y)=H(X)+H(Y)$。
+    \item 极值性: 对于任意概率分布$P(X=x_{i})=p_{i}$和$P(Y=y_{i})=q_{i}$，$i=1...n$，都有
+    \[
+        H(X) = - \sum\limits_{i=1}^n p_{i} \log p_{i} \le - \sum\limits_{i=1}^n p_{i} \log q_{i}  
+        \label{eqn:app_entropy_max}
+    \]
+    当$X$和$Y$的概率分布相同时，\eqref{eqn:app_entropy_max}取等号。
+
+    该性质表明，任意概率分布，它对其他概率分布的自信息取数学期望时， 必大于它本身的熵。
+
+    \item 凸性：对于任意概率分布$P(X=x_{i})=p_{i}$和$P(Y=y_{i})=q_{i}$，$i=1...n$，假设随机变量$Z$的分布为$P(Z=z_{i})=\ga_{i}=\lr p_{i} + (1-\lr)q_{i},\lr \in [0,1]$， 那么$Z$的熵满足
+    \[
+        H(Z) \ge \lr H(X) + (1-\lr) H(Y)
+        \label{eqn:app_entropy_convex}
+    \]
+
+\end{itemize}
 
 
+\begin{theorem}[最大熵定理]
+    $H(X) \le \log n$，当$p_{1}=p_{2}=...=\frac{1}{n}$ 时，等号成立
+\end{theorem}
+\begin{proof}
+    求熵的最大值等价于以下优化问题
+    \[
+        \max \quad H(x) =& - \sum_{i=1}^n p_{i} \log p_{i}\\
+        s.t. \quad \sum_{i=1}^n p_{i}=&1
+        \nonumber 
+    \]
+
+    利用拉格朗日乘子法构造函数
+    \[
+        G(p, \reg) = - \sum_{i=1}^n p_{i} \log p_{i} + \reg \prt{\sum_{i=1}^n p_{i} - 1}
+        \label{eqn:app_entropy_lag}
+    \]  
+    
+    \eqref{eqn:app_entropy_lag}中分别对$p_{i}$和$\reg$求导，令其为零，得到
+    \[
+        \frac{\partial G(p, \reg)}{\partial p_{i}} = -\log p_{i} - 1 + \reg =0 \\
+        \sum_{i=1}^n p_{i} - 1 = 0        
+    \]
+     
+    由$-\log p_{i} - 1 + \reg =0$可得到 $p_{i}=e^{\reg-1},i=1,2..n$, 由此可知$p_{1}=p_{2}=...=\frac{1}{n}$
+    
+\end{proof} 
 
 
+\begin{lemma}[熵的强可加性]
+    当随机变量$X,Y$相关的情况下，联合熵满足强可加性，即
+    \[
+        H(X,Y) =& H(Y) + H(X|Y)\\
+        H(X,Y) =& H(X) + H(Y|X)            
+    \]
+\end{lemma}
+\begin{proof}
+    \[
+        H(Y) + H(X|Y)
+        =&- \sum_y P(y) \log P(y) - \sum_x \sum_y P(x, y) \log P(x|y)\\
+        =& - \sum_x \sum_y P(x,y) \log P(y) - \sum_x \sum_y P(x, y) \log P(x|y) \\
+        =& - \sum_x \sum_y P(x,y)\log P(x,y) \\
+        =& H(X,Y)
+        \nonumber  
+    \]
+
+    同理可证
+    \[
+        H(X,Y) =& H(X) + H(Y|X)
+        \nonumber
+    \]
+\end{proof}
 
 
+\begin{lemma}[熵的凸性]
+    证明\eqref{eqn:app_entropy_convex}
+\end{lemma}
+\begin{proof}
+    \[
+        H(Z)=& - \sum_{i=1}^{n} \ga_{i} \log \ga_{i} \\
+        =& - \sum_{i=1}^{n} \lr p_{i} \log \ga_{i}- \sum_{i=1}^{n} (1-\lr) q_{i} \log \ga_{i}\\
+        =& - \sum_{i=1}^{n} \lr p_{i} \log \left( \ga_{i} \frac{p_{i}}{p_{i}}\right)- \sum_{i=1}^{n} (1-\lr) q_{i} \log  \left( \ga_{i} \frac{q_{i}}{q_{i}}\right) \\
+        =& - \lr \sum_{i=1}^{n} p_{i} \log p_{i} - (1-\lr) \sum_{i=1}^{n} q_{i}\log q_{i} - \lr \sum_{i=1}^{n} p_{i} \log \frac{\ga_{i}}{p_{i}} - (1-\lr)\sum_{i=1}^{n} q_{i} \log \frac{\ga_{i}}{q_{i}} \\
+        =& \lr H(X) + (1-\lr) H(Y) - \lr \sum_{i=1}^{n} p_{i} \log \frac{\ga_{i}}{p_{i}} - (1-\lr)\sum_{i=1}^{n} q_{i} \log \frac{\ga_{i}}{q_{i}}  
+        \label{app_entorpy_convex_proof}
+    \]
+
+    其中\eqref{app_entorpy_convex_proof}的倒数第二项
+    \[
+        - \lr \sum_{i=1}^{n} p_{i} \log \frac{\ga_{i}}{p_{i}} =& \lr \left(-\sum_{i=1}^{n} p_{i} \log \ga_{i} + \sum_{i=1}^{n} p_{i} \log p_{i}   \right) \\
+         \ge & 0  \quad \prt{\text{根据\eqref{eqn:app_entropy_max}}})
+         \nonumber
+    \]
+    
+    同理可知\eqref{app_entorpy_convex_proof}的倒数第一项
+    \[
+        - (1-\lr)\sum_{i=1}^{n} q_{i} \log \frac{\ga_{i}}{q_{i}}  \ge 0    
+        \nonumber
+    \]
+    所以得到
+    \[
+        H(Z) \ge \lr H(X) + (1-\lr) H(Y)
+        \nonumber
+    \]
+
+    
+
+\end{proof}
+
+
+\typeout{END_CHAPTER "model" \theabspage}
+
+
+ 
 
 
 
