@@ -114,8 +114,7 @@ $H(Y| X)$的含义是已知在$X$发生的前提下，$Y$发生\newterm{新带�
 
 
 \section{熵的性质}
-
-为表示方便，下文假设离散随机变量$X$的概率分布为$P(X=x_{i})=p_{i},i=1...n$。 
+ 
 
 $X$的熵具有如下几个性质
 \begin{itemize}
@@ -145,7 +144,11 @@ $X$的熵具有如下几个性质
 
 
 \begin{theorem}[最大熵定理]
-    $H(X) \le \log n$，当$p_{1}=p_{2}=...=\frac{1}{n}$ 时，等号成立
+    离散随机变量$X$的概率分布为$P(X=x_{i})=p_{i},i=1...n$，那么
+    \[
+        H(X) \le \log n
+    \]
+    当$p_{1}=p_{2}=...=\frac{1}{n}$ 时，等号成立。
 \end{theorem}
 \begin{proof}
     求熵的最大值等价于以下优化问题
@@ -233,6 +236,58 @@ $X$的熵具有如下几个性质
 \end{proof}
 
 
+\begin{theorem}
+    条件熵小于无条件熵，即$H(X|Y) \le H(X)$
+\end{theorem}
+
+\begin{proof}
+    \[
+        H(X|Y)-H(X) 
+        =& - \sum_{x,y} P(x,y) \log P(x|y) + \sum_x P(x) \log P(x) \\
+        =& - \sum_{x,y} P(x,y) \log P(x|y) + \sum_{x} \left(\sum_{y}  P(x,y) \right) \log P(x)\\
+        =& - \sum_{x,y} P(x,y) \log P(x|y) + \sum_{x,y}  P(x,y) \log P(x) \\
+        =& - \sum_{x,y} P(x,y) \left(\log P(x|y) - \log P(x) \right)\\
+        =& - \sum_{x,y} P(x,y) \log \frac{P(x,y)}{P(x)P(y)}\\
+        =& - \sum_{x,y} P(x,y)\log P(x,y) - \left(-\sum_{x,y} P(x,y)\log P(x)P(y)  \right)\\
+        \le& 0 \quad \prt{\text{根据熵的极值性 }}  
+    \]
+\end{proof}
+
+
+\subsection{整理得到的公式}
+
+根据本节内容整理得到的重要公式
+
+\begin{itemize}
+\item 根据条件熵定义可得
+\[
+    H(X|Y) = H(X,Y) - H(Y)    
+    \label{eqn:app_entropy_ret1}
+\]
+
+\item 根据互信息定义展开可得
+\[
+    H(X|Y) = H(X) - I(X,Y)    
+    \label{eqn:app_entropy_ret2}
+\]
+
+\item 根据\eqref{eqn:app_entropy_ret1}和\eqref{eqn:app_entropy_ret2}得到的对偶形式
+\[
+    H(Y|X) =& H(X,Y) - H(X)\\
+    H(Y|X) =& H(Y) - I(X,Y)
+    \nonumber
+\]
+
+\item 多数文献将下式作为互信息的定义公式
+\[
+    I(X,Y) = H(X) + H(Y) - H(X,Y)
+    \nonumber    
+\]
+
+\item $H(X|Y) \le H(X)$
+
+
+\end{itemize}
 \typeout{END_CHAPTER "model" \theabspage}
 
 
