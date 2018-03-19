@@ -115,7 +115,7 @@ Softmax模型是二项回归模型在多分类问题上的推广，在多分类�
 \subsection{模型的参数估计}
 令$P(Y=k|\vx)=\pi_k(\vx)$，与二项逻辑回归类似，Softmax的似然函数可以表示为
 \[
-	L(\mTheta) = \prod^N_{i=1} \prod^K_{k=1}\prt{\pi_k(\vx_i)}^{\I_{y_i=k}}
+	L(\mTheta) = \prod^N_{i=1} \prod^K_{k=1}\prt{\pi_k(\vx_i)}^{\1_\mathrm{y_i=k}}
 	\nonumber 
 \]
 
@@ -123,7 +123,7 @@ Softmax模型是二项回归模型在多分类问题上的推广，在多分类�
 
 \[
 	\log L(\mTheta) 
-	=& \xsum{i=1}{N} \xsum{k=1}{K} \I_{y_i=k} \log \pi_k(\vx_i)    
+	=& \xsum{i=1}{N} \xsum{k=1}{K} \1_\mathrm{y_i=k} \log \pi_k(\vx_i)    
 	\label{eqn:softmax_likelihood}
 \]
 
@@ -136,15 +136,15 @@ Softmax模型是二项回归模型在多分类问题上的推广，在多分类�
 故根据\eqref{eqn:softmax_likelihood}，得到Softmax模型的对数似然函数的梯度
 \[
 	\nabla_{\vtheta_k} \log L(\mTheta) 
-	=&  \xsum{i=1}{N}  \I_{y_i=k}\frac{1}{\pi_k(\vx_i)}\frac{\partial \pi_k(\vx_i)  }{\partial \vtheta_k} \\
-	=& \xsum{i=1}{N}  \I_{y_i=k}\frac{1}{\pi_k(\vx_i)} \frac{\vx_i\exp(\vtheta^T_k \vx_i)\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx_i) - \exp(\vtheta^T_k \vx_i)}}{\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx_i)}^2} \\
-	=& \xsum{i=1}{N}  \I_{y_i=k} \frac{\vx_i\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx) - \exp(\vtheta^T_k \vx_i)}}{\xsum{j=1}{K} \exp(\vtheta_j^T \vx)} \\
-	=& \xsum{i=1}{N}  \I_{y_i=k} \vx_i\prt{1 - \pi_k(\vx_i)  }
+	=&  \xsum{i=1}{N}  \1_\mathrm{y_i=k}\frac{1}{\pi_k(\vx_i)}\frac{\partial \pi_k(\vx_i)  }{\partial \vtheta_k} \\
+	=& \xsum{i=1}{N}  \1_\mathrm{y_i=k}\frac{1}{\pi_k(\vx_i)} \frac{\vx_i\exp(\vtheta^T_k \vx_i)\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx_i) - \exp(\vtheta^T_k \vx_i)}}{\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx_i)}^2} \\
+	=& \xsum{i=1}{N}  \1_\mathrm{y_i=k} \frac{\vx_i\prt{\xsum{j=1}{K} \exp(\vtheta_j^T \vx) - \exp(\vtheta^T_k \vx_i)}}{\xsum{j=1}{K} \exp(\vtheta_j^T \vx)} \\
+	=& \xsum{i=1}{N}  \1_\mathrm{y_i=k} \vx_i\prt{1 - \pi_k(\vx_i)  }
 \]
 
 对于任意第$k$个分类的参数$\vtheta_k$，可沿着梯度上升的方向进行迭代
 \[
-   \vtheta_k  \coloneqq \vtheta_k + \lr \xsum{i=1}{N}  \I_{y_i=k} \vx_i\prt{1 - \pi_k(\vx_i)  }
+   \vtheta_k  \coloneqq \vtheta_k + \lr \xsum{i=1}{N}  \1_\mathrm{y_i=k} \vx_i\prt{1 - \pi_k(\vx_i)  }
    \label{eqn:softmax_gd}
 \]
 
@@ -154,10 +154,10 @@ Softmax模型是二项回归模型在多分类问题上的推广，在多分类�
 \]
 其中$\mLambda=\left(
 	 \begin{array}{c}
-		\I_{y_1=k}\prt{1 - \pi_k(\vx_1)}\\
-		\I_{y_2=k}\prt{1 - \pi_k(\vx_2)}\\
+		\1_\mathrm{y_1=k}\prt{1 - \pi_k(\vx_1)}\\
+		\1_\mathrm{y_2=k}\prt{1 - \pi_k(\vx_2)}\\
 		...\\
-		\I_{y_N=k}\prt{1 - \pi_k(\vx_N)}
+		\1_\mathrm{y_N=k}\prt{1 - \pi_k(\vx_N)}
 	  \end{array} \right)_{N \times 1}$，$X$是由训练数据构成的$N \times (n+1)$矩阵(每一行对应一个样本，每一列对应样本的一个维度，其中还包括一维常数项)。
 
 \clearpage
