@@ -1,0 +1,86 @@
+\chapter{主成分分析}
+\label{chap:pca}
+\typeout{START_CHAPTER "model" \theabspage}
+
+
+\section{主成分分析的数学原理}
+\subsection{几个重要的定理}
+\begin{lemma}
+	$\mSigma$为对称矩阵，如果$\vu^*$是如下优化问题的解
+	\[
+		\vu^* = \underset{\Vert u\Vert =1}{arg\max} \prt{ \vu^T \mSigma \vu }	
+		\nonumber
+	\]
+	那么$\vu^*$是$\mSigma$的特征向量。
+
+\end{lemma}
+
+\begin{proof}
+	实际上约束条件$\Vert \vu \Vert =1$等价于$\vu^T \vu=1$
+	
+	利用拉格朗日乘子法，得到
+	\[
+		G(\vu; \reg) = \vu^T \mSigma \vu + \reg (\vu^T \vu-1)	
+		\nonumber
+	\]
+	
+	对$G$求$u$的偏导得到
+	\[
+		\frac{\partial}{\partial \vu}G(\vu; \reg) 
+		=& 2 \mSigma \vu + 2\reg \vu = 0 \\
+		\Rightarrow&  \mSigma \vu = -\reg \vu 	
+		\nonumber	
+	\]
+	
+	所以$\vu$是矩阵$\mSigma$的特征向量，对应的特征值为$-\reg$
+	
+\end{proof}
+
+
+\subsection{主成分分析的算法}
+
+假设
+\begin{itemize}
+	\item 存在$n$个原始数据，每个数据有$p$个特征，用矩阵表示为$\mZ_{n \times p}=(\vz_1,\vz_2,...,\vz_n)^T$, 其中$\vz_{i}$ 为$p$维列向量。
+	\item $Z$的协方差矩阵已知，用$\mSigma_{p \times p}$ 表示
+\end{itemize}
+
+主成分分析(PCA)的原理是将高纬度的原始数据映射到低纬度空间中：低纬空间中第一个新坐标轴选择的是原始数据中方差最大的方向，第二个新坐标轴选取的是与第一个坐标轴正交且具有最大方差的方向，依次类推，我们可以取到这样的个坐标轴。
+
+
+
+
+主成分分析(PCA)的算法如下
+\begin{enumerate}
+	\item 将数据\newterm{中心化}变换为$\mX_{n \times p}=(\vx_{1},\vx_{2},...,\vx_{n})^T$, 其中$\mX=\mZ-\E \mZ$(具体而言$\vx_{i}=\vz_{i}-\vmu$, $\vmu=\frac{1}{n}\xsum{i=1}{n}\vz_{i}$)，
+	由此可知$X$的均值和方差为
+	\[
+		\E X =&0 \\
+		\Var X =& \Var ( Z - \E Z) = \Var Z = \mSigma
+		\nonumber
+	\]
+
+	\item 用$\vu_{p \times 1}$表示某投影方向上的单位向量，那么$\vx_i$在$\vu$ 上的投影可以表示为
+	\[
+		<\vx_i,\vu>=\vx_{i}^{T}\vu
+		\nonumber
+	\]
+
+	那么数据集$\mX$在$\vu$ 上的投影向量为$\mY=\mX \vu$，可知$\mY$的均值和方差为
+	\[
+		\E \mY =& \E \mX \vu \\
+		\Var \mY =& \Var \mX \vu = \vu^T (\Var \mX) \vu = \vu^T \mSigma \vu
+		\nonumber
+	\]
+
+\end{enumerate}
+
+
+
+
+
+
+
+\clearpage
+%%
+\typeout{END_CHAPTER "model" \theabspage}
