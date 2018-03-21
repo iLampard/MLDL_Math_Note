@@ -2,18 +2,44 @@
 \label{chap:pca}
 \typeout{START_CHAPTER "model" \theabspage}
 
+主成分分析（Principal Component Analysis, PCA）是一种常见的\newterm{数据降维}方法，其目的是在信息量损失较小的前提下，将高维的数据转换到低维，从而减小计算量。实质就是找到一些投影方向，使得数据在这些投影方向上包含的信息量最大，而且这些投影方向是相互正交的。选择其中一部分包含最多信息量的投影方向作为新的数据空间，同时忽略包含较小信息量的投影方向，从而达到降维的目的。
+
+样本的\newterm{信息量}可以理解为是样本在特征方向上投影的方差。方差越大，则样本在该特征上的差异就越大，因此该特征就越重要。参见《机器学习实战》上的图，在分类问题里，样本的方差越大，越容易将不同类别的样本区分开。
+
+PCA的数学原理，就是对原始的空间中顺序地找一组相互正交的坐标轴，第一个轴是使得方差最大的，第二个轴是在与第一个轴正交的平面中使得方差最大的，第三个轴是在与第1、2个轴正交的平面中方差最大的，这样假设在N维空间中，可以找到N个这样的坐标轴，取前r 个去近似这个空间，这样就从一个N 维的空间压缩到r 维的空间了，但是最终选择的r 个坐标轴能够使得数据的损失最小。
+
+
+\section{主成分分析的算法}
+假设
+\begin{itemize}
+	\item 存在$n$个原始数据，每个数据有$p$个特征，用矩阵表示为$\mZ_{n \times p}=(\vz_1,\vz_2,...,\vz_n)^T$, 其中$\vz_{i}$ 为$p$维列向量。
+\end{itemize}
+
+\begin{enumerate}
+	\item 去除平均值，即中心化，将数据\newterm{中心化}变换为$\mX_{n \times p}=(\vx_{1},\vx_{2},...,\vx_{n})^T$, 其中$\mX=\mZ-\E \mZ$(具体而言$\vx_{i}=\vz_{i}-\vmu$, $\vmu=\frac{1}{n}\xsum{i=1}{n}\vz_{i}$)。
+	\item 计算$X$的协方差矩阵，用$\mSigma_{p \times p}$ 表示
+	\[
+		\Var X =& \Var ( Z - \E Z) = \Var Z = \mSigma
+		\nonumber
+	\]
+	实际上$X$的协方差矩阵就是原始数据$Z$的协方差矩阵。
+	\item 计算协方差矩阵$\mSigma$的特征向量$\{ \vxi_{j}\}$和特征值$\{\reg_{j}\}$, $j=1..p$。
+	\item 将特征值从小到大排序。
+	\item 保留前若干个特征值对应的特征向量, 假设保留的特征值为$\{ \reg^*_{j}\} $, $j=1..q$, 对应的特征向量构成的矩阵为$\mXi_{p \times q} =( \vxi^*_{1}, \vxi^*_{2},..., \vxi^*_{q})$
+	\item 将数据集$X$转换到上述$q$个特征向量构建的新的空间中, 得到新的数据集$\mX^*_{n \times q} = \mX\mXi= \prt{ \begin{array}{c} \vx_{1} \\\vx_{2}\\... \\ \vx_{i}\\... \\ \vx_{n}   \end{array} } ( \vxi^*_{1},  \vxi^*_{2}, ..., \vxi^*_{q})$
+\end{enumerate}
+
 
 \section{主成分分析的数学原理}
 \subsection{几个重要的定理}
-\begin{lemma}
-	$\mSigma$为对称矩阵，如果$\vu^*$是如下优化问题的解
+\begin{theorem}
+	$\mSigma$为对称矩阵，如下优化问题的解$\vu^*$是$\mSigma$的特征向量。
 	\[
-		\vu^* = \underset{\Vert u\Vert =1}{arg\max} \prt{ \vu^T \mSigma \vu }	
+		\vu^* = \underset{\Vert u\Vert =1}{\argmax} \prt{ \vu^T \mSigma \vu }	
 		\nonumber
 	\]
-	那么$\vu^*$是$\mSigma$的特征向量。
-
-\end{lemma}
+	\label{theorem:pca_lemma_ev}
+\end{theorem}
 
 \begin{proof}
 	实际上约束条件$\Vert \vu \Vert =1$等价于$\vu^T \vu=1$
@@ -26,56 +52,48 @@
 	
 	对$G$求$u$的偏导得到
 	\[
-		\frac{\partial}{\partial \vu}G(\vu; \reg) 
-		=& 2 \mSigma \vu + 2\reg \vu = 0 \\
-		\Rightarrow&  \mSigma \vu = -\reg \vu 	
+		\nabla_\vu G(\vu; \reg) 
+		=& 2 \mSigma \vu + 2\reg \vu
 		\nonumber	
 	\]
+
+	如果$\vu^*$是优化问题的解，那么$\vu^*$满足
+	\[
+		&\nabla_\vu G(\vu; \reg)\mid _{\vu=\vu^*}   = 0 \\
+		\Rightarrow&  \mSigma \vu^* = -\reg \vu^* 	
+		\nonumber
+	\]
+
+
 	
-	所以$\vu$是矩阵$\mSigma$的特征向量，对应的特征值为$-\reg$
+	所以$\vu^*$是矩阵$\mSigma$的特征向量，对应的特征值为$-\reg$。
 	
 \end{proof}
 
 
-\subsection{主成分分析的算法}
+\subsection{主成分分析的算法原理}
 
-假设
-\begin{itemize}
-	\item 存在$n$个原始数据，每个数据有$p$个特征，用矩阵表示为$\mZ_{n \times p}=(\vz_1,\vz_2,...,\vz_n)^T$, 其中$\vz_{i}$ 为$p$维列向量。
-	\item $Z$的协方差矩阵已知，用$\mSigma_{p \times p}$ 表示
-\end{itemize}
+\subsubsection{最大方差投影}
+用$\vu_{p \times 1}$表示某投影方向上的单位向量，那么$\vx_i$在$\vu$ 上的投影可以表示为
+\[
+	<\vx_i,\vu>=\vx_{i}^{T}\vu
+	\nonumber
+\]
 
-主成分分析(PCA)的原理是将高纬度的原始数据映射到低纬度空间中：低纬空间中第一个新坐标轴选择的是原始数据中方差最大的方向，第二个新坐标轴选取的是与第一个坐标轴正交且具有最大方差的方向，依次类推，我们可以取到这样的个坐标轴。
+那么数据集$\mX$在$\vu$ 上的投影向量为$\mY=\mX \vu$，可知$\mY$的均值和方差为
+\[
+	\E \mY =& \E \mX \vu \\
+	\Var \mY =& \Var \mX \vu = \vu^T (\Var \mX) \vu = \vu^T \mSigma \vu
+	\nonumber
+\]
 
+主成分分析就是要到一个方向，使得数据集$\mX$在该方向上投影方差最大。如果用单位向量$\vu_1$来表示这个方向，那么$\vu_1$是如下优化问题的解
+\[
+	\underset{\Vert u \Vert=1}{\argmax} \quad \vu^T\mSigma \vu 
+	\nonumber
+\]
 
-
-
-主成分分析(PCA)的算法如下
-\begin{enumerate}
-	\item 将数据\newterm{中心化}变换为$\mX_{n \times p}=(\vx_{1},\vx_{2},...,\vx_{n})^T$, 其中$\mX=\mZ-\E \mZ$(具体而言$\vx_{i}=\vz_{i}-\vmu$, $\vmu=\frac{1}{n}\xsum{i=1}{n}\vz_{i}$)，
-	由此可知$X$的均值和方差为
-	\[
-		\E X =&0 \\
-		\Var X =& \Var ( Z - \E Z) = \Var Z = \mSigma
-		\nonumber
-	\]
-
-	\item 用$\vu_{p \times 1}$表示某投影方向上的单位向量，那么$\vx_i$在$\vu$ 上的投影可以表示为
-	\[
-		<\vx_i,\vu>=\vx_{i}^{T}\vu
-		\nonumber
-	\]
-
-	那么数据集$\mX$在$\vu$ 上的投影向量为$\mY=\mX \vu$，可知$\mY$的均值和方差为
-	\[
-		\E \mY =& \E \mX \vu \\
-		\Var \mY =& \Var \mX \vu = \vu^T (\Var \mX) \vu = \vu^T \mSigma \vu
-		\nonumber
-	\]
-
-\end{enumerate}
-
-
+根据\theoref{theorem:pca_lemma_ev}，$u_1$就是$\mSigma$的特征向量。
 
 
 
