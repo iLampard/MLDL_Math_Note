@@ -1,6 +1,4 @@
-% \chapter*{Notation}
-% \label{notation}
-\chapter*{符号声明}
+\chapter*{符号表}
 \label{notation}
 
 
@@ -8,15 +6,8 @@
 
 % Sometimes we have to include the following line to get this section
 % included in the Table of Contents despite being a chapter*
-% \addcontentsline{toc}{chapter}{Notation}
-% This section provides a concise reference describing notation used throughout this
-% document.
-% If you are unfamiliar with any of the corresponding mathematical concepts,
-% \citet{dlbook} describe most of these ideas in
-% chapters 2--4.
-\addcontentsline{toc}{chapter}{Notation}
-本节提供了对整个文档中使用的数学符号的简要参考。
-如果你对其中任何相应的数学概念不熟悉，大部分内容可参照\citet{dlbook}的2-4章节中的描述。
+\addcontentsline{toc}{chapter}{符号表}
+下面列出了本文所用的数学符号对照表，具体可参照\citet{dlbook}的2-4章节。
 
 \vspace{\notationgap}
 % Need to use minipage to keep title of table on same page as table
@@ -24,13 +15,12 @@
 % This is a hack to put a little title over the table
 % We cannot use "\section*", etc., they appear in the table of contents.
 % tocdepth does not work on this chapter.
-% \centerline{\bf Numbers and Arrays}
 \centerline{\bf 数字和数组}
 \bgroup
 % The \arraystretch definition here increases the space between rows in the table,
 % so that \displaystyle math has more vertical space.
 \def\arraystretch{1.5}
-\begin{tabular}{cp{3.25in}}
+\begin{tabular}{cp{3.25in}} 
 % $\displaystyle a$ & A scalar (integer or real)\\
 % $\displaystyle \va$ & A vector\\
 % $\displaystyle \mA$ & A matrix\\
@@ -42,17 +32,17 @@
 % $\displaystyle \ra$ & A scalar random variable\\
 % $\displaystyle \rva$ & A vector-valued random variable\\
 % $\displaystyle \rmA$ & A matrix-valued random variable\\
-$\displaystyle a$ & 标量（整数或实数）\\
-$\displaystyle \va$ & 矢量\\
+$\displaystyle a$ & 标量(整数或实数)\\
+$\displaystyle \va$ & 向量(矢量)\\
 $\displaystyle \mA$ & 矩阵\\
 $\displaystyle \tA$ & 张量\\
 $\displaystyle \mI_n$ &  $n$ 行 $n$ 列的单位矩阵\\
-$\displaystyle \mI$ & 上下文所指示维度的单位矩阵\\
+$\displaystyle \mI$ & 单位矩阵，维度参见上下文\\
 $\displaystyle \ve^{(i)}$ & 标准基向量 $[0,\dots,0,1,0,\dots,0]$ ，其中第 $i$ 位为 1\\
 $\displaystyle \text{diag}(\va)$ & 正方形对角矩阵，其中对角线元素为 $\va$ \\
-$\displaystyle \ra$ & 标量随机变量\\
-$\displaystyle \rva$ & 矢量随机变量\\
-$\displaystyle \rmA$ & 矩阵随机变量\\
+$\displaystyle \ra$ & 随机变量，标量\\
+$\displaystyle \rva$ & 随机变量，向量\\
+$\displaystyle \rmA$ & 随机变量，矩阵\\
 \end{tabular}
 \egroup
 \index{Scalar}
@@ -63,8 +53,7 @@ $\displaystyle \rmA$ & 矩阵随机变量\\
 
 \vspace{\notationgap}
 \begin{minipage}{\textwidth}
-% \centerline{\bf Sets and Graphs}
-\centerline{\bf 集合和图象}
+\centerline{\bf 集合和图}
 \bgroup
 \def\arraystretch{1.5}
 \begin{tabular}{cp{3.25in}}
@@ -87,11 +76,11 @@ $\displaystyle \R$ & 实数集合 \\
 % $\displaystyle \parents_\gG(\ervx_i)$ & The parents of $\ervx_i$ in $\gG$
 $\displaystyle \{0, 1\}$ & 包含 0 和 1 的集合 \\
 $\displaystyle \{0, 1, \dots, n \}$ & 从 $0$ 到 $n$ 的所有整数的集合 \\
-$\displaystyle [a, b]$ & 包含 $a$ 和 $b$ 的实数区间\\
-$\displaystyle (a, b]$ & 不包含 $a$ 但包含 $b$ 的实数区间\\
+$\displaystyle [a, b]$ &  $a$ 到 $b$ 的实数闭区间\\
+$\displaystyle (a, b]$ & $a$ 到 $b$ 的实数半开区间\\
 $\displaystyle \sA \backslash \sB$ & 差集, 即集合包含了在 $\sA$ 中但不在 $\sB$ 中的元素\\
-$\displaystyle \gG$ & 图象\\
-$\displaystyle \parents_\gG(\ervx_i)$ & $\gG$ 中 $\ervx_i$ 的母元素
+$\displaystyle \gG$ & 图\\
+$\displaystyle \parents_\gG(\ervx_i)$ & 图$\gG$ 中节点 $\ervx_i$ 的双亲
 \end{tabular}
 \egroup
 \index{Scalar}
@@ -104,7 +93,6 @@ $\displaystyle \parents_\gG(\ervx_i)$ & $\gG$ 中 $\ervx_i$ 的母元素
 
 \vspace{\notationgap}
 \begin{minipage}{\textwidth}
-% \centerline{\bf Indexing}
 \centerline{\bf 角标}
 \bgroup
 \def\arraystretch{1.5}
@@ -117,22 +105,21 @@ $\displaystyle \parents_\gG(\ervx_i)$ & $\gG$ 中 $\ervx_i$ 的母元素
 % $\displaystyle \etA_{i, j, k}$ & Element $(i, j, k)$ of a 3-D tensor $\tA$\\
 % $\displaystyle \tA_{:, :, i}$ & 2-D slice of a 3-D tensor\\
 % $\displaystyle \erva_i$ & Element $i$ of the random vector $\rva$ \\
-$\displaystyle \eva_i$ & 矢量 $\va$ 的第 $i$ 个元素, 其中角标从 1 开始 \\
-$\displaystyle \eva_{-i}$ & 矢量 $\va$ 除 $i$ 以外的所有元素 \\
-$\displaystyle \emA_{i,j}$ & 矩阵 $\mA$ 的 第 $i$ 行第 $j$ 列元素\\
+$\displaystyle \eva_i$ & 向量 $\va$ 的第 $i$ 个元素, 其中角标从 1 开始 \\
+$\displaystyle \eva_{-i}$ & 向量 $\va$ 除 第$i$个元素以外的所有元素 \\
+$\displaystyle \emA_{i,j}$ & 矩阵 $\mA$ 的 第 $i$ 行第 $j$ 列的元素\\
 $\displaystyle \mA_{i, :}$ & 矩阵 $\mA$ 的第 $i$ 行\\
 $\displaystyle \mA_{:, i}$ & 矩阵 $\mA$ 的第 $i$ 列 \\
 $\displaystyle \etA_{i, j, k}$ & 3-D 张量 $\tA$ 的元素 $(i, j, k)$\\
 $\displaystyle \tA_{:, :, i}$ & 3-D 张量的 2-D 切片\\
-$\displaystyle \erva_i$ & 随机矢量 $\rva$ 的第 $i$ 个元素\\
+$\displaystyle \erva_i$ & 随机向量 $\rva$ 的第 $i$ 个元素\\
 \end{tabular}
 \egroup
 \end{minipage}
 
 \vspace{\notationgap}
 \begin{minipage}{\textwidth}
-% \centerline{\bf Linear Algebra Operations}
-\centerline{\bf 线性代数运算}
+\centerline{\bf 线性代数}
 \bgroup
 \def\arraystretch{1.5}
 \begin{tabular}{cp{3.25in}}
@@ -155,7 +142,6 @@ $\displaystyle \mathrm{det}(\mA)$ & 矩阵 $\mA$ 的行列式\\
 
 \vspace{\notationgap}
 \begin{minipage}{\textwidth}
-% \centerline{\bf Calculus}
 \centerline{\bf 微积分}
 \bgroup
 \def\arraystretch{1.5}
@@ -174,13 +160,13 @@ $\displaystyle \mathrm{det}(\mA)$ & 矩阵 $\mA$ 的行列式\\
 % $\displaystyle \int_\sS f(\vx) d\vx$ & Definite integral with respect to $\vx$ over the set $\sS$ \\
 $\displaystyle\frac{d y} {d x}$ & $y$ 关于 $x$ 的导数\\ [2ex]
 $\displaystyle \frac{\partial y} {\partial x} $ & $y$ 关于 $x$ 的偏导数\\
-$\displaystyle \nabla_\vx y $ & $y$ 关于 $\vx$ 的梯度\\
-$\displaystyle \nabla_\mX y $ & $y$ 关于 $\mX$ 的矩阵导数\\
-$\displaystyle \nabla_\tX y $ & $y$ 关于 $\tX$ 的张量导数\\
+$\displaystyle \nabla_\vx y $ & $y$ 关于 向量$\vx$ 的梯度\\
+$\displaystyle \nabla_\mX y $ & $y$ 关于 矩阵$\mX$ 的导数\\
+$\displaystyle \nabla_\tX y $ & $y$ 关于 张量$\tX$ 的导数\\
 $\displaystyle \frac{\partial f}{\partial \vx} $ & $f: \R^n \rightarrow \R^m$ 的雅克比矩阵 $\mJ \in \R^{m\times n}$\\
-$\displaystyle \nabla_\vx^2 f(\vx)\text{ or }\mH( f)(\vx)$ & $f$ 在输入点 $\vx$ 的海森矩阵\\
-$\displaystyle \int f(\vx) d\vx $ & 在全域上关于 $\vx$ 的定积分\\
-$\displaystyle \int_\sS f(\vx) d\vx$ & 在集合 $\sS$ 上关于 $\vx$ 的定积分\\
+$\displaystyle \nabla_\vx^2 f(\vx)\text{ or }\mH( f)(\vx)$ & $f$ 在输入向量 $\vx$ 的海森矩阵\\
+$\displaystyle \int f(\vx) d\vx $ & 在整个定义域上$f$关于 $\vx$ 的定积分\\
+$\displaystyle \int_\sS f(\vx) d\vx$ & 在集合 $\sS$ 上$f$关于 $\vx$ 的定积分\\
 \end{tabular}
 \egroup
 \index{Derivative}
@@ -191,7 +177,6 @@ $\displaystyle \int_\sS f(\vx) d\vx$ & 在集合 $\sS$ 上关于 $\vx$ 的定积
 
 \vspace{\notationgap}
 \begin{minipage}{\textwidth}
-% \centerline{\bf Probability and Information Theory}
 \centerline{\bf 概率论与信息论}
 \bgroup
 \def\arraystretch{1.5}
@@ -210,15 +195,15 @@ $\displaystyle \int_\sS f(\vx) d\vx$ & 在集合 $\sS$ 上关于 $\vx$ 的定积
 % $\displaystyle \mathcal{N} ( \vx ; \vmu , \mSigma)$ & Gaussian distribution %
 % over $\vx$ with mean $\vmu$ and covariance $\mSigma$ \\
 $\displaystyle \ra \bot \rb$ & 随机变量 $\ra$ 与 $\rb$ 相互独立\\
-$\displaystyle \ra \bot \rb \mid \rc $ & 对于给定的 $\rc$ 条件独立\\
+$\displaystyle \ra \bot \rb \mid \rc $ & 随机变量 $\ra$ 与 $\rb$对于给定的 $\rc$ 条件独立\\
 $\displaystyle P(\ra)$ & 离散变量的概率分布\\
 $\displaystyle p(\ra)$ & 连续变量的概率分布或类型不确定的变量的概率分布 \\
 $\displaystyle \ra \sim P$ & 随机变量 $\ra$ 服从 $P$ 分布\\% so thing on left of \sim should always be a random variable, with name beginning with \r
-$\displaystyle  \E_{\rx\sim P} [ f(x) ]\text{ or } \E f(x)$ & $f(x)$ 关于 $P(\rx)$ 的期望\\
-$\displaystyle \Var(f(x)) $ & $f(x)$ 在 $P(\rx)$ 下的方差\\
-$\displaystyle \Cov(f(x),g(x)) $ & $f(x)$ 和 $g(x)$ 在 $P(\rx)$ 下的协方差\\
+$\displaystyle  \E_{\rx\sim P} [ f(x) ]\text{ or } \E f(x)$ & $f(x)$ 在概率分布 $P(\rx)$ 的期望\\
+$\displaystyle \Var(f(x)) $ & $f(x)$ 在概率分布 $P(\rx)$ 下的方差\\
+$\displaystyle \Cov(f(x),g(x)) $ & $f(x)$ 和 $g(x)$ 在概率分布 $P(\rx)$ 下的协方差\\
 $\displaystyle H(\rx) $ & 随机变量 $\rx$ 的信息熵 \\
-$\displaystyle \KL ( P \Vert Q ) $ & P 和 Q 的相对熵 \\
+$\displaystyle \KL ( P \Vert Q ) $ & 随机变量$P$ 与 $Q$ 的相对熵(KL散度) \\
 $\displaystyle \mathcal{N} ( \vx ; \vmu , \mSigma)$ & 均值为 $\vmu$ 方差为 $\mSigma$ 的 $\vx$ 的高斯分布 \\
 \end{tabular}
 \egroup
@@ -232,7 +217,6 @@ $\displaystyle \mathcal{N} ( \vx ; \vmu , \mSigma)$ & 均值为 $\vmu$ 方差为
 
 \vspace{\notationgap}
 \begin{minipage}{\textwidth}
-% \centerline{\bf Functions}
 \centerline{\bf 函数}
 \bgroup
 \def\arraystretch{1.5}
@@ -249,8 +233,8 @@ $\displaystyle \mathcal{N} ( \vx ; \vmu , \mSigma)$ & 均值为 $\vmu$ 方差为
 % $\displaystyle x^+$ & Positive part of $x$, i.e., $\max(0,x)$\\
 % $\displaystyle \1_\mathrm{condition}$ & is 1 if the condition is true, 0 otherwise\\
 $\displaystyle f: \sA \rightarrow \sB$ & 定义域为 $\sA$ 值域为 $\sB$ 的函数 $f$ \\
-$\displaystyle f \circ g $ & 函数 $f$ 和 $g$ 的合成 \\
-  $\displaystyle f(\vx ; \vtheta) $ & 参数为 $\vtheta$ 的 $\vx$ 的函数.
+$\displaystyle f \circ g $ & 函数 $f$ 和 $g$ 的复合函数 \\
+  $\displaystyle f(\vx ; \vtheta) $ & 参数为 $\vtheta$ 的 关于$\vx$ 的函数.
   （有时我们写作 $f(\vx)$ 而忽略参数 $\vtheta$ 来简化符号）\\
 $\displaystyle \log x$ & $x$ 的自然对数 \\
 $\displaystyle \sigma(x)$ & Logistic sigmoid 函数, $\displaystyle \frac{1} {1 + \exp(-x)}$ \\
@@ -271,14 +255,13 @@ $\displaystyle \1_\mathrm{condition}$ & 如果条件为真则值为1，条件为
 % This denotes the application of $f$ to the
 % array element-wise. For example, if $\tC = \sigma(\tX)$, then $\etC_{i,j,k} = \sigma(\etX_{i,j,k})$
 % for all valid values of $i$, $j$ and $k$.
-有时我们把参数为标量的函数 $f$ 应用到矢量，矩阵，或张量中：$f(\vx)$, $f(\mX)$, 或 $f(\tX)$。
-这代表将 $f$ 应用到数组元素层面，例如，如果 $\tC = \sigma(\tX)$, 那么对所有 $i$, $j$ 和 $k$ 的有效值，
-有 $\etC_{i,j,k} = \sigma(\etX_{i,j,k})$
+有时我们把参数为标量的函数 $f$ 应用到矢量、矩阵或张量中：$f(\vx)$, $f(\mX)$, 或 $f(\tX)$。
+这代表着将 $f$ 应用到数组元素层面，例如，如果 $\tC = \sigma(\tX)$, 那么任意 $i$, $j$ 和 $k$ ，
+都有 $\etC_{i,j,k} = \sigma(\etX_{i,j,k})$
 
 
 \vspace{\notationgap}
 \begin{minipage}{\textwidth}
-% \centerline{\bf Datasets and Distributions}
 \centerline{\bf 数据集和分布}
 \bgroup
 \def\arraystretch{1.5}
@@ -289,12 +272,12 @@ $\displaystyle \1_\mathrm{condition}$ & 如果条件为真则值为1，条件为
 % $\displaystyle \vx^{(i)}$ & The $i$-th example (input) from a dataset\\
 % $\displaystyle y^{(i)}\text{ or }\vy^{(i)}$ & The target associated with $\vx^{(i)}$ for supervised learning\\
 % $\displaystyle \mX$ & The $m \times n$ matrix with input example $\vx^{(i)}$ in row $\mX_{i,:}$\\
-$\displaystyle \pdata$ & 数据生成分布\\
-$\displaystyle \ptrain$ & 由训练集定义的经验分布\\
-$\displaystyle \sX$ & 一组训练用例\\
-$\displaystyle \vx^{(i)}$ & 数据集中的第 $i$ 个（输入）用例\\
-$\displaystyle y^{(i)}\text{ or }\vy^{(i)}$ & 有监督学习下 $\vx^{(i)}$ 对应的目标值\\
-$\displaystyle \mX$ & $m \times n$ 的矩阵，其中输入用例 $\vx^{(i)}$ 在 $\mX_{i,:}$ 行\\
+$\displaystyle \pdata$ & 数据生成的概率分布\\
+$\displaystyle \ptrain$ & 训练集生成(定义)的经验分布\\
+$\displaystyle \sX$ & 训练集\\
+$\displaystyle \vx^{(i)}$ & 数据集中的第 $i$ 个（输入）实例\\
+$\displaystyle y^{(i)}\text{ or }\vy^{(i)}$ & 有监督学习下 $\vx^{(i)}$ 对应的标记\\
+$\displaystyle \mX$ & $m \times n$ 的矩阵，其中输入实例 $\vx^{(i)}$ 在 $\mX_{i,:}$ 行\\
 \end{tabular}
 \egroup
 \end{minipage}
