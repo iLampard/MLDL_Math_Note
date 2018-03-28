@@ -1,0 +1,51 @@
+\chapter{附录：贝叶斯决策论}
+\label{app:entory}
+\typeout{START_CHAPTER "model" \theabspage}
+
+\section{贝叶斯估计}
+
+\subsection{先验概率与后验概率}
+\[
+    P(\vtheta \vert X) = \frac{P(X \vert \vtheta )P(\vtheta)}{P(X)}
+    \label{eqn:app_bayes_eqn}
+\]
+ 
+\eqref{eqn:app_bayes_eqn}中$P(\vtheta \vert X)$ 称为\newterm{后验概率}，$P(X\vert\vtheta )$称为\newterm{条件概率}(也是似然估计中的\newterm{似然函数})，$P(\vtheta)$称为\newterm{先验概率}，$P(X)$是随机变量$X$ 自身的概率，$P(X)$也被称为“证据”(evidence)。
+
+\subsection{参数估计：极大似然、最大后验以及贝叶斯}
+基于概率的参数估计的方法主要有三种，分别是\newterm{最大似然估计}(Maximum Likelihood)、\newterm{贝叶斯估计}(Bayes)和\newterm{最大后验估计}(Maximum a posteriori)。
+
+\begin{itemize}
+    \item 极大似然估计(ML)把似然函数$L(\vtheta \vert X)$取得最大值时的参数作为估计值。 (对数)极大似然函数的估计参数可以写成
+    \[
+        \hat{\vtheta}_{ML} = \argmax_{\vtheta} L(\vtheta \vert X) =  \argmax_{\vtheta} \sum_{x \in X} \log P(x\vert\vtheta)   
+        \nonumber
+    \] 
+    
+    \item 最大后验估计(MAP)与极大似然估计的区别在于加入了先验概率$P(\vtheta)$，
+    \[
+        \hat{\vtheta}_{MAP} =& \arg \max_{\vtheta} \frac{P(X\vert\vtheta )P(\vtheta)}{P(X)} \\
+        =&  \argmax_{\vtheta} P(X\vert\vtheta )P(\vtheta)\\
+        =& \argmax_{\vtheta} \prt{\sum_{x \in X} \log P(x\vert\vtheta) + \log P(\vtheta) }\\
+        =& \argmax_{\vtheta} \prt{ L(\vtheta \vert X) + \log P(\vtheta)}
+        \nonumber
+    \]
+
+    \item 贝叶斯估计不直接估计参数的值，而是允许参数服从一定概率分布，不再是求使得后验概率最大的参数，而是求满足该假设分布的参数的期望作为估计值， 另外还可计算参数的方差，来评估参数估计的准确程度或者置信度。 具体而言就是要计算
+    \[
+        P(\vtheta |X) = \frac{P(X|\vtheta )P(\vtheta)}{P(X)} 
+        = \frac{P(X|\vtheta )P(\vtheta)}{\int_{\evtheta \in \vtheta} P(X \vert\vtheta) P(\vtheta) d\vtheta}
+    \]
+\end{itemize}
+
+\typeout{END_CHAPTER "model" \theabspage}
+
+
+ 
+
+
+
+
+
+
+
