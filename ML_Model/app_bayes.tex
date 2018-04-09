@@ -2,9 +2,10 @@
 \label{app:entory}
 \typeout{START_CHAPTER "model" \theabspage}
 
-\section{贝叶斯估计}
+\section{先验概率与后验概率}
+此部分参考了\cite{MLEAndMAP}。
 
-\subsection{先验概率与后验概率}
+\subsection{概念}
 \[
     P(\vtheta \vert X) = \frac{P(X \vert \vtheta )P(\vtheta)}{P(X)}
     \label{eqn:app_bayes_eqn}
@@ -12,31 +13,64 @@
  
 \eqref{eqn:app_bayes_eqn}中$P(\vtheta \vert X)$ 称为\newterm{后验概率}，$P(X\vert\vtheta )$称为\newterm{条件概率}(也是似然估计中的\newterm{似然函数})，$P(\vtheta)$称为\newterm{先验概率}，$P(X)$是随机变量$X$ 自身的概率，$P(X)$也被称为“证据”(evidence)。
 
-\subsection{参数估计：极大似然、最大后验以及贝叶斯}
-基于概率的参数估计的方法主要有三种，分别是\newterm{最大似然估计}(Maximum Likelihood)、\newterm{贝叶斯估计}(Bayes)和\newterm{最大后验估计}(Maximum a posteriori)。
+\subsection{频率学派与贝叶斯学派} 
+
+对于概率的认知有频率学派和贝叶斯学派两种。
+\begin{itemize}
+    \item  频率学派：模型参数是未知的定值，观测是随机变量。估计的方法是\newterm{极大似然估计}(Maximum Likelihood)，不依赖于先验概率。
+    \item  贝叶斯学派：模型参数是随机变量，观测是定值。估计的方法是\newterm{最大后验估计}(Maximum a posteriori)：根据已有的经验和知识推断一个先验概率， 然后在新证据不断积累的情况下调整这个概率。
+\end{itemize}
+
+
+\subsection{参数估计：极大似然与最大后验}
+极大似然估计(ML)与最大后验估计(MAP)的数学方法的区别如下。
 
 \begin{itemize}
-    \item 极大似然估计(ML)把似然函数$L(\vtheta \vert X)$取得最大值时的参数作为估计值。 (对数)极大似然函数的估计参数可以写成
+    \item 极大似然估计(ML)把似然函数$P(X \vert \vtheta )$取得最大值时的参数作为估计值。 (对数)极大似然函数的估计参数可以写成
     \[
-        \hat{\vtheta}_{ML} = \argmax_{\vtheta} L(\vtheta \vert X) =  \argmax_{\vtheta} \sum_{x \in X} \log P(x\vert\vtheta)   
+        \hat{\vtheta}_{ML} = \argmax_{\vtheta} P(X \vert \vtheta ) =  \argmax_{\vtheta} \sum_{x \in X} \log P(x\vert\vtheta)   
         \nonumber
     \] 
     
     \item 最大后验估计(MAP)与极大似然估计的区别在于加入了先验概率$P(\vtheta)$，
     \[
-        \hat{\vtheta}_{MAP} =& \arg \max_{\vtheta} \frac{P(X\vert\vtheta )P(\vtheta)}{P(X)} \\
+        \hat{\vtheta}_{MAP} 
+        =& \argmax_{\vtheta} P(\vtheta  \vert X) \\
+        =& \argmax_{\vtheta} \frac{P(X\vert\vtheta )P(\vtheta)}{P(X)} \\
         =&  \argmax_{\vtheta} P(X\vert\vtheta )P(\vtheta)\\
-        =& \argmax_{\vtheta} \prt{\sum_{x \in X} \log P(x\vert\vtheta) + \log P(\vtheta) }\\
-        =& \argmax_{\vtheta} \prt{ L(\vtheta \vert X) + \log P(\vtheta)}
+        =& \argmax_{\vtheta} \prt{\sum_{x \in X} \log P(x\vert\vtheta) + \log P(\vtheta) }
         \nonumber
     \]
-
-    \item 贝叶斯估计不直接估计参数的值，而是允许参数服从一定概率分布，不再是求使得后验概率最大的参数，而是求满足该假设分布的参数的期望作为估计值， 另外还可计算参数的方差，来评估参数估计的准确程度或者置信度。 具体而言就是要计算
-    \[
-        P(\vtheta |X) = \frac{P(X|\vtheta )P(\vtheta)}{P(X)} 
-        = \frac{P(X|\vtheta )P(\vtheta)}{\int_{\evtheta \in \vtheta} P(X \vert\vtheta) P(\vtheta) d\vtheta}
-    \]
+  
 \end{itemize}
+
+\section{共轭分布}
+在贝叶斯理论中，如果后验概率$P(\vtheta \vert X)$和先验概率$P(\vtheta)$满足同样的分布律， 那么先验概率分布和后验概率分布就叫做\newterm{共轭分布}， 同时先验分布叫做似然函数的\newterm{共轭先验分布}。
+
+\begin{theorem}
+    二项分布的共轭先验是Beta分布。
+\end{theorem}
+
+\begin{proof}
+假设
+\begin{itemize}
+    \item 先验分布为Beta分布，$\vtheta \sim \mBeta (\evalpha, \evbeta)$，那么$P(\vtheta | \evalpha, \evbeta) = \frac{1}{\mBeta(\evalpha, \evbeta)} \vtheta^{\evalpha-1} (1-\vtheta)^{\evbeta-1}$，其中$ \mBeta(\evalpha, \evbeta)=\int_0^1 \vtheta^{\evalpha-1} (1-\evtheta)^{\evbeta-1} d\vtheta =\frac{G(\evalpha)G(\evbeta)}{G(\evalpha+\evbeta)}$
+    \item 似然概率服从二项分布，$P(X=k \vert \vtheta) = C^k_n  \vtheta^k (1-\vtheta)^{n-k}$
+\end{itemize}
+后验概率
+\[
+    P(\vtheta|X=k) =& \frac{P(X=k|\vtheta)P(\vtheta)}{P(X=k)} \\
+    =& \frac{P(X=k|\vtheta)P(\vtheta)}{\int_0^1 P(\vtheta, X=k) d\vtheta}\\
+    =& \frac{P(X=k|\vtheta)P(\vtheta)}{\int_0^1 P(X=k|\vtheta)p(\vtheta) d\vtheta}\\
+    =& \frac{C^k_n  \vtheta^k (1-\vtheta)^{n-k}\frac{1}{\evbeta(\evalpha, \evbeta)} \vtheta^{\evalpha-1} (1-\vtheta)^{\evbeta-1}}{\int_0^1 C^k_n  \vtheta^k (1-\vtheta)^{n-k}\frac{1}{\evbeta(\evalpha, \evbeta)} \vtheta^{\evalpha-1} (1-\vtheta)^{\evbeta-1} d\vtheta } \\
+    =& \frac{\vtheta^{\evalpha+k-1} (1-\vtheta)^{\evbeta+n-k-1}}{\int_0^1  \vtheta^{\evalpha+k-1} (1-\vtheta)^{\evbeta+n-k-1} d\vtheta  }\\
+    =&  \frac{\vtheta^{\evalpha+k-1} (1-\vtheta)^{\evbeta+n-k-1}}{B(\evalpha+k, \evbeta+n-k) }  \quad \left(\text{根据定义$B(\evalpha, \evbeta)=\int_0^1 \vtheta^{\evalpha-1} (1-\vtheta)^{\evbeta-1} d\vtheta$ }\right)  
+    \nonumber
+\]
+
+后验概率也服从Beta分布$\vtheta|X=k \sim \mBeta (\evalpha+k, \evbeta+n-k)$，故二项分布的共轭先验是Beta分布。
+
+\end{proof} 
 
 \typeout{END_CHAPTER "model" \theabspage}
 
