@@ -1,0 +1,57 @@
+\chapter{方法概论}
+\label{chap:methodology}
+\typeout{START_CHAPTER "model" \theabspage}
+
+本章讨论\newterm{监督学习}的基本方法与概念，内容参考了\cite{lihang2012StatLearningMethod}和\cite{MITMLMath}。
+
+\section{基本概念}
+
+
+\subsection{模型}
+用$X$和$Y$表示输入空间$\gX$和输出空间$\gY$上的变量，用$\vtheta$表示参数向量，模型的假设空间一般有两种情况
+\begin{itemize}
+	\item 决策函数的集合$\gF=\{f |Y=f_{\vtheta}(X) \}$，此类模型称为\newterm{非概率模型}
+	\item 条件概率的集合$\gF=\{P|P_{\vtheta}(Y|X) \}$，此类模型称为\newterm{概率模型}
+\end{itemize}
+
+\subsection{策略}
+
+
+\subsubsection{损失函数}
+
+度量输出的预测值$f(X)$与真实值$Y$差异程度的函数称为\newterm{损失函数}，记做$L(Y,f(X))$，通常的损失函数有0-1损失， 平方损失等。
+
+常用的损失函数有0-1损失，平方损失，对数损失等。
+
+用损失函数的期望来度量模型$f$在联合分布$P(X,Y)$下的平均损失，也成为称为\newterm{风险函数}或\newterm{期望风险}。
+\[
+	R_{\exp}(f) = \E [ L(Y,f(X)) ] = \int_{\gX \times \gY} L(Y,f(X)) d P(X,Y)
+	\nonumber
+\]
+
+学习的目标是选择期望最小的模型。然而实践中联合概率分布$P(X,Y)$是未知的，只能用\newterm{经验风险}来估计。
+
+给定一个训练集$\sX=\{(\vx_1, y_1),(\vx_2, y_2)..,(\vx_N,y_N)  \}$
+\[
+	R_{\operatorname{emp}}(f) = \frac{1}{N} \sum_{i=1}^N L(y_i,f(\vx_i))	
+	\nonumber
+\]
+
+根据监督学习的基本假设，训练数据和测试数据都是依$P(X,Y)$独立同分布产生的，所以$R_{\operatorname{emp}}(f)$是$R_{\exp}(f)$的无偏估计。根据大数定律，$R_{\operatorname{emp}}(f)$收敛于$R_{\exp}(f)$。
+
+\section{泛化误差}
+
+
+假设学习到的模型为$\hat{f}$，那么该模型的泛化误差定义为该模型的期望风险：
+\[
+	R_{\exp}(\hat{f})	=\E [ L(Y,\hat{f}(X)) ] = \int_{\gX \times \gY} L(Y,\hat{f}(X)) d P(X,Y)
+\]
+
+下文以二类分类问题为例，讨论模型的泛化误差。
+
+\subsection{二类分类问题}
+
+
+\clearpage
+%%
+\typeout{END_CHAPTER "model" \theabspage}
