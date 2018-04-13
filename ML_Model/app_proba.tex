@@ -1,0 +1,67 @@
+
+\chapter{附录：概率论中的重要结论}
+\label{app:entory}
+\typeout{START_CHAPTER "model" \theabspage}
+
+\section{Hoeffding不等式}
+本节内容参考了\cite{MITMLMath}。
+
+\begin{lemma}[Hoeffding 引理]
+    如果随机变量$Z\in [a,b] \quad a.s$，并且$\E Z=0$，那么对于$\forall s \in \R$，都有
+    \[
+        \E e^{sZ} \le e^{\frac{s^2(b-a)^2}{8}}  
+    \]
+\end{lemma}
+
+\begin{proof}
+    令 $\psi(s)=\log \E e^{sZ}$，由于$Z\in[a,b] \quad a.s$，对于给定的$s$，$e^{sZ}$是有界函数。
+    
+    根据勒贝格控制收敛定理的结论，可知$e^{sZ}$的积分和求导符号可互换，那么得到
+    \[
+        \psi^{'}(s)=&  \frac{\E Z e^{sZ}}{\E e^{sZ}} \\
+        \psi^{''}(s) =& \frac{\E Z^2 e^{sZ}\E e^{sZ} - (\E Z e^{sZ})^2}{(\E e^{sZ})^2}=\E Z^2 \left( \frac{ e^{sZ}}{\E e^{sZ}}\right) - \left(\E Z \frac{ e^{sZ}}{\E e^{sZ}} \right)^2
+        \nonumber
+    \]
+
+    因为$\int \frac{ e^{sZ}}{\E e^{sZ}} d \mathbb{P}=1$，可定义Radon-Nikodym导数
+    \[
+        \frac{d \mathbb{Q} }{d \mathbb{P}} = \frac{ e^{sZ}}{\E e^{sZ}}    
+    \]
+
+    由此引入一个新的概率测度$\mathbb{Q}$。$\psi^{''}(s)$可以看做$Z$在概率测度$\mathbb{Q}$ 下的方差
+    \[
+        \psi^{''}(s) =& \E^\mathbb{Q} Z^2  - \left(\E^\mathbb{Q} Z  \right)^2 \\
+        =& \Var (Z)\\
+        =&\Var \left(Z - \frac{a+b}{2} \right)  \quad \prt{\textrm{随机变量加减常数不影响方差} }\\
+        \le& \E \left(Z - \frac{a+b}{2} \right)^2  \quad \prt{\textrm{根据方差的定义} } \\
+        \le& \E\left( \frac{b-a}{2} \right)^2  \quad \prt{\textrm{根据$Z\in[a,b]$得到$|Z-\frac{a+b}{2}| \le \frac{b-a}{2}$}}\\
+        =& \frac{(b-a)^2}{4}
+        \nonumber
+    \]
+
+    所以
+    \[
+        & \psi(s) = \int^s_0 \int^y_0 \psi^{''}(x) dx dy \le \int^s_0 \int^y_0 \frac{(b-a)^2}{4} dx dy = \frac{s^2(b-a)}{8}  \\
+        \Rightarrow& \quad \log \E e^{sZ} \le  \frac{s^2(b-a)}{8}  \\
+        \Rightarrow& \quad \E e^{sZ} \le e^{\frac{s^2(b-a)^2}{8}}
+        \nonumber
+    \]
+
+    
+
+\end{proof}
+
+
+
+\begin{theorem}[Hoeffding定理]
+    假设$X_1,...X_n$为$n$个独立的随机变量，并且$X \in[0,1] \quad a.s$， 那么对于 $\forall s >0$，都有
+    \[
+        & P \prt{\frac{1}{n} \sum^n_{i=1}\prt{X_i - \E X_i}  > t }  \le e^{-2nt^2}  \\
+        & P \prt{\frac{1}{n} \sum^n_{i=1}\prt{\E X_i - X_i}  > t }  \le e^{-2nt^2}  \\
+        & P \prt{\left| \frac{1}{n} \sum^n_{i=1}\prt{\E X_i - X_i} \right| > t }   \le 2e^{-2nt^2}
+        \nonumber
+    \]
+\end{theorem}
+
+
+\typeout{END_CHAPTER "model" \theabspage}

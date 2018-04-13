@@ -40,18 +40,26 @@
 根据监督学习的基本假设，训练数据和测试数据都是依$P(X,Y)$独立同分布产生的，所以$R_{\operatorname{emp}}(f)$是$R_{\exp}(f)$的无偏估计。根据大数定律，$R_{\operatorname{emp}}(f)$收敛于$R_{\exp}(f)$。
 
 \section{泛化误差}
-
-
 假设学习到的模型为$\hat{f}$，那么该模型的泛化误差定义为该模型的期望风险：
 \[
 	R_{\exp}(\hat{f})	=\E [ L(Y,\hat{f}(X)) ] = \int_{\gX \times \gY} L(Y,\hat{f}(X)) d P(X,Y)
 \]
 
-下文以二类分类问题为例，讨论模型的泛化误差。
 
 \subsection{二类分类问题}
+下文以二类分类问题为例，讨论模型的泛化误差。
 
+假设模型的输入空间$\gX=\R^n$，输出空间$\gY =\{-1,1\}$。模型的决策函数空间是有限集合$\gF=\{f_1,f_2,...f_d\}$，损失函数是0-1损失。
 
-\clearpage
+\begin{theorem}
+	对于二类分类问题，当假设空间是有限个函数的集合$\gF=\{f_1,f_2,...f_d \}$时，对于任意$f \in \gF$，至少以概率$1-\delta$，以下关于期望风险$R(f)$和经验风险$\hat{R}(f)$关系的不等式成立
+	\[
+		R(f) \le \hat{R}(f) + \sqrt{\frac{\log(d/ \delta)}{2N} }	
+	\]
+
+\end{theorem}
+  
+\clearpage 
 %%
 \typeout{END_CHAPTER "model" \theabspage}
+    
