@@ -1,0 +1,71 @@
+
+\chapter{附录：数学基本方法}
+\label{app:general}
+\typeout{START_CHAPTER "model" \theabspage}
+
+\section{梯度}
+本节内容参考了\cite{GradDecent}。
+
+\subsection{梯度与方向导数}
+函数在某点的
+\begin{itemize}
+    \item \newterm{导数}表示函数曲线上的切线斜率，也表示函数在该点的变化率。
+    \item \newterm{偏导数}是函数关于其某一个变量的导数，物理含义是函数沿着坐标轴正方向上的变化率。
+    \item \newterm{方向导数}是函数在某点沿某个指定方向上的变化率。
+    \item \newterm{梯度}是函数在该点沿所有方向变化率最大的那个方向，是一个向量。
+\end{itemize}
+
+\subsection{梯度下降}
+
+
+设函数$u=u(x,y)$在点$P_0(x_0,y_0)$的某空间领域内$U \subset \R$有定义，$l$为从点$P_0$出发的射线，$P(x,y)$为$l$上且在$U$内的任一点, 令
+\[
+    x - x_0 =& \Delta x = t \cos\lr \\
+    y - y_0 =&  \Delta y = t \sin\lr 
+    \nonumber
+\]
+
+以$t=\sqrt{(\Delta x)^2 + (\Delta y)^2}$ 表示$P$与$P_0$之间的距离，若极限
+\[
+    \lim_{t \to 0^+} \frac{u(P) - u(P_0)}{t} = \lim_{t \to 0^+} \frac{u(x_0+t \cos\lr, y_0+t \sin\lr) - u(P_0)}{t} \nonumber
+\]
+
+存在，则称此极限为函数$u=u(x,y)$在点$P_0(x_0,y_0)$沿着方向$l$的\newterm{方向导数}，记做$\frac{\partial u}{\partial l}  \big|_{P_0}$。
+
+\begin{lemma}
+假设函数$u=u(x,y)$在点$P_0(x_0,y_0)$可微，则$u=u(x,y)$在点$P_0(x_0,y_0)$沿着方向$l$的方向导数都存在，且
+\[
+    \frac{\partial u}{\partial l}  \big|_{P_0} =  u^{'}_x(P_0) \cos \lr + u^{'}_y(P_0) \sin \lr  
+\]
+\end{lemma}
+
+假设函数$u=u(x,y)$在点$P_0(x_0,y_0)$存在一阶偏导数，则定义
+\[
+    \nabla u \big| _{P_0} = \prt{u^{'}_x(P_0), u^{'}_y(P_0) }  \nonumber
+\]
+为函数$u=u(x,y)$在点$P_0(x_0,y_0)$的\newterm{梯度}。
+
+\begin{theorem}
+    函数$u=u(x,y)$在点$P_0(x_0,y_0)$处的方向导数在其梯度方向上达到最大值，此最大值为梯度的模。
+\end{theorem}
+
+\begin{proof}
+    根据方向导数的定义
+    \[
+        \frac{\partial u}{\partial l}  \big|_{P_0} =&  u^{'}_x(P_0) \cos \lr + u^{'}_y(P_0) \sin \lr \nonumber \\
+            =& \prt{u^{'}_x(P_0), u^{'}_y(P_0) } \cdot  \prt{ \cos \lr, \sin \lr  } \nonumber \\
+            =& \nabla u \big| _{P_0} \cdot l \nonumber \\
+            =& \big | \nabla u \big| _{P_0}  \big| \big| l \big| \cos \evtheta \nonumber \\
+            =& \big | \nabla u \big| _{P_0}  \big| \cos \evtheta
+            \label{eqn:app_general_grad}    
+    \]
+
+    其中$\evtheta$ 为梯度向量$\nabla u \big| _{P_0}$与方向向量$l$的夹角。根据公式(\eqref{eqn:app_general_grad})可知，当夹角$\cos \evtheta=1$，即$\evtheta=0$时，
+    方向导数$\frac{\partial u}{\partial l}  \big|_{P_0}$取得最大值，此最大值为$\big | \nabla u \big| _{P_0}  \big|$。
+\end{proof}
+
+
+
+
+
+\typeout{END_CHAPTER "model" \theabspage}
