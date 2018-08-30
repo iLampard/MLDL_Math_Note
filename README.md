@@ -10,7 +10,7 @@ Study Note on Machine Learning and Deep Learning
 由于水平所限，文中谬误在所难免，欢迎指正。
 
 ## 如何编译
-笔记所使用的tex模板源自[Deep Learning](www.deeplearningbook.org) 的[tex源码]，稍作修改适应中文环境，参见[dlbook_notation_cn](https://github.com/iLampard/dlbook_notation_cn)
+笔记所使用的tex模板源自[Deep Learning](www.deeplearningbook.org) 的[tex源码](https://github.com/goodfeli/dlbook_notation)，稍作修改适应中文环境，参见[dlbook_notation_cn](https://github.com/iLampard/dlbook_notation_cn)
 - 编辑器： VSCode 1.26.0 
 - 集成环境： TexLive 2017 
 - 插件：Latex Workshop，使用默认设置(latexmk)
